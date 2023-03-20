@@ -1,0 +1,33 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% for message in messages %}
+   <center><p style="color: #ff0000;">{{message}}</p> </center> 
+{% endfor %}
+    
+<form action="" method="POST">
+            {% csrf_token %}
+    <center>
+        <fieldset>
+            <legend>Sign Up</legend>
+            <label>Username: </label> <input type="text" required name="uname" id=""> <br>
+
+            <label>Email: </label> <input type="email" required name="email" id=""> <br>
+            
+            <label>Password: </label> <input type="password" required name="password" id=""> <br>
+        <br>
+        <label>Confirm Password: </label> <input type="password" required name="c_password" id=""> <br>
+
+        <br>
+        <input type="submit" value="Submit" >
+
+    </fieldset>
+
+        <a href="{% url 'ecommerce:auth_user' %}">Login</a>
+    </center>
+</form>
+    
+{% endblock content %}
+    

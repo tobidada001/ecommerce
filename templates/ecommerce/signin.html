@@ -1,0 +1,29 @@
+{% extends '../base.html' %} {% load static %}
+<!-- Header Section End -->
+{% block content %}
+
+<form action="" method="POST">
+        {% csrf_token %}
+
+
+        <center>
+                <fieldset>
+                        <legend>Login</legend>
+                        <label>Username: </label>
+                        <input type="text" required name="uname" id="">
+                        <br>
+
+                        <label>Password: </label>
+                        <input type="password" required name="password" id="">
+                        <br>
+                        <br>
+                        <input type="submit" value="Submit">
+                </fieldset>
+
+                <a href="{% url 'ecommerce:register_user' %}">Register</a>
+        </center>
+
+
+</form>
+
+{% endblock content %}

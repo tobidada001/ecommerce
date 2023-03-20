@@ -1,0 +1,64 @@
+
+{% if data %}
+    
+
+{% for item in data %}
+An item.
+     
+<tr>
+    <td class="product__cart__item">
+        <div class="product__cart__item__pic">
+            <img src="{{item.product.image.url}}" width="70" height="70" alt="">
+        </div>
+        <div class="product__cart__item__text">
+            
+            <h6>
+
+                {% if item.variation %} 
+                {% if item.variation.title %} 
+                {{item.variation.title}} 
+                {% else %} {{item}} 
+                {% endif %}
+
+                <br>
+                <p>
+
+                    {% if item.variation.color %}
+                    <b>Color: </b> {{item.variation.color}} {% endif %} {% if item.variation.size %}
+                    <b>Size: </b>{{item.variation.size}} {% endif %}
+
+                </p> {% else %} {{item.product.name}} {% endif %}
+
+            </h6>
+
+
+            <h5>${{item.product.price}}</h5>
+        </div>
+    </td>
+    <td class="quantity__item">
+        <div class="quantity">
+            <div class="pro-qty-2">
+
+                {% if item.variation %} 
+                <input type="number" data-productid="{{item.id}}" class="quantity_changed" value="{{item.quantity}}"> {% else %}
+                <input type="number" data-productid="{{item.product.id}}" class="quantity_changed" value="{{item.quantity}}"> {% endif %}
+
+
+            </div>
+        </div>
+    </td>
+    <td data-total_amount="{{item.total_amount}}" class="cart__price">${{item.total_amount}}</td>
+
+    <td class="cart__close">
+        <i class="fa fa-close removeitem" data-remove_id="{{item.id}}"></i>
+    </td>
+
+
+
+</tr>
+
+
+{% endfor %}
+
+{% endif %}
+    

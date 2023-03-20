@@ -1,0 +1,14 @@
+<div class="product__color__select">
+    
+    {% if product.variant == "Color"  or product.variant == "Size-Color" %}
+    
+    {% for v in data %}
+            
+    <label class="" style="background: {{v.color.color_code}}" for="pc-{{forloop.counter}}">
+        <input type="radio" name="color" data-color="{{v.id}}" value="{{v.color.id}}" id="pc-{{forloop.counter}}">
+        <!-- <input type="hidden" name="variant_id" class="variant_id" data-variant_id="{{v.id}}" value="{{v.id}}"> -->
+    </label>
+    {% endfor %}
+    {% endif %}
+        
+</div>

@@ -1,0 +1,55 @@
+{% extends '../base.html' %}
+{% load static %}
+    <!-- Header Section End -->
+
+{% block content %}
+ 
+    {% include "../breadcrumb.html" with current_page='Shopping Cart' %}
+   
+    <section class="shopping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="shopping__cart__table">
+                        <table id="cartitems_table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Payment Method</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody">
+                                
+                                {% if orders %}
+                                    
+                                {% for order in orders %}
+                                   
+                                <tr>
+                                    <td>{{order.order_id}}</td>
+                                    <td>{{order.created_at}}</td>
+                                    <td>{{order.status}}</td>
+                                    <td>{{order.payment_method}}</td>
+                                    <td> <a href="#">View Details</a> </td>
+                                    </tr>
+                                {% endfor %}
+                                {% else %}
+                                    <p>You haven't made any orders, yet.</p>
+                                {% endif %}
+                                    
+                            </tbody>
+                        </table>
+                    </div>
+                 
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+
+    <!-- Footer Section Begin -->
+  
+{% endblock content %}

@@ -1,0 +1,130 @@
+{% extends '../base.html' %}
+{% load static %}
+    <!-- Header Section End -->
+
+{% block content %}
+    <!-- Header Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+ 
+    {% include "../breadcrumb.html" with current_page='Shopping Cart' %}
+    <!-- Breadcrumb Section End -->
+
+    <!-- Shopping Cart Section Begin -->
+    <section class="shopping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="shopping__cart__table">
+                        <table id="cartitems_table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody">
+                                
+                                {% for item in items_in_cart reversed %}
+                            
+                                <tr>
+                                       
+                                        <td class="product__cart__item">
+                                            <div class="product__cart__item__pic">
+                                                <img src="{{item.product.image.url}}" width="70" height="70" alt="">
+                                            </div>
+                                            <div class="product__cart__item__text">
+
+                                                <h6>
+
+                                                    {% if item.variation %}
+                                                    
+                                                        {% if item.variation.title %}
+                                                            {{item.variation.title}}
+                                                        {% else %}
+                                                            {{item}}
+                                                        {% endif %}
+                                                        
+                                                        
+                                                        <br>
+                                                       <p>
+                                                        
+                                                        {% if item.variation.color %}
+                                                            <b>Color: </b> {{item.variation.color}}
+                                                        {% endif %}
+                                                    
+                                                        {% if item.variation.size %}
+                                                            <b>Size: </b>{{item.variation.size}}
+                                                        {% endif %}
+
+                                                   </p> {% else %}
+
+                                                    {{item.product.name}}
+                                                       
+                                                    {% endif %}
+                                                     
+                                                </h6>
+                                               
+
+                                                <h5>${{item.product.price}}</h5>
+                                            </div>
+                                        </td>
+                                        <td class="quantity__item">
+                                            <div class="quantity">
+                                                <div class="pro-qty-2">
+                                                           
+                                                            {% if item.variation %}
+                                                            <input type="number" data-productid="{{item.id}}" class="quantity_changed" value="{{item.quantity}}">
+                                                            {% else %}
+                                                            <input type="number" data-productid="{{item.product.id}}" class="quantity_changed" value="{{item.quantity}}">
+                                                            {% endif %}
+                                                                     
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-total_amount="{{item.total_amount}}" class="cart__price">${{item.total_amount}}</td>
+                                       
+                                        <td class="cart__close"><i class="fa fa-close removeitem"  data-remove_id="{{item.id}}"></i></td>
+                                        
+                                    </tr>
+                                {% endfor %}
+                                    
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="continue__btn">
+                                <a href="{% url 'ecommerce:shop' %}">Continue Shopping</a>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="cart__discount">
+                        <h6>Discount codes</h6>
+                        <form action="#">
+                            <input type="text" placeholder="Coupon code">
+                            <button type="submit">Apply</button>
+                        </form>
+                    </div>
+                    <div class="cart__total">
+                        <h6>Cart total</h6>
+                        <ul>
+                            <li>Subtotal <span id="total_payment_subtotal">$ {{total_amount_to_pay}}</span></li>
+                            <li>Total <span id="total_payment">$ {{total_amount_to_pay}}</span></li>
+                        </ul>
+                        <a href="{% url 'ecommerce:checkout' %}" class="primary-btn">Proceed to checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+
+    <!-- Footer Section Begin -->
+  
+{% endblock content %}
