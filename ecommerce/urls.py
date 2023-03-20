@@ -14,7 +14,7 @@ urlpatterns = [
     path('load-color/', views.load_colors, name='load_colors'),
     path('checkout/', views.checkout, name= 'checkout'),
     path('orders/', views.orders, name = 'orders'),
-    path('auth-user/', views.auth_user, name = 'auth_user'),
-    path('register-user/', views.register_user, name = 'register_user'),
+    path('auth-user', views.auth_user, name = 'auth_user'),
+    path('register-user', views.register_user, name = 'register_user'),
     path('logout/', views.logoutuser, name = 'logout')
 ]

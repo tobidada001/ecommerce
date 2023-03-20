@@ -1,0 +1,186 @@
+{% load static %} {% url 'ecommerce:index' as index %}
+{% load custom_filters %}
+<div class="{% if request.path == index %} 
+  col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix 
+ 
+  {% else %} col-lg-4 col-md-6 col-sm-6 {% endif %}
+                    
+    {% if product.is_new %} new-arrivals {% endif %} ">
+
+    <div class="product__item">
+        <div class="product__item__pic set-bg" data-setbg="{{product.image.url}}">
+            {% if product.is_new %}
+            <span class="label">New</span>
+            {% endif %}
+            <ul class="product__hover">
+                <li>
+                    <a href="#">
+                        <img src="{% static 'img/icon/heart.png' %}" alt="">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="{% static 'img/icon/compare.png' %}" alt="">
+                        <span>Compare</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="{% static 'img/icon/search.png' %}" alt=""> </img>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'ecommerce:product_info' product.id %}">
+                        <img src="{% static 'img/icon/info.png' %}" alt="">
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="product__item__text">
+            <h6 id="product_name">{{product.name}}</h6>
+            <p id="p_{{product.id}}"></p>
+
+            <input type="hidden" class="variants" value="{{product.variant}}">
+
+            <input type="hidden" id="product_id_{{product.id}}" value="{{product.id}}">
+            <input type="hidden" id="product_name_{{product.id}}" value="{{product.name}}">
+            <p style="color: #fb0000" id="product_id_{{product.id}}_error"></p>
+            
+            <a id="add-to-cart-btn-{{product.id}}" class="add-cart">+ Add To Cart</a>
+            
+            {% if product.variant == "Size" or product.variant == "Size-Color" %}
+          
+            <form action="" class="myform" >
+                <div class="product__details__option__size">
+                    {% for size in product.product_variation.size_list %}
+                   
+                    <label >{{size.size}}
+                        
+                        <input type="radio" data-productid="{{product.id}}" data-size="{{size.id}}" data-vid="{{size.id}}" value="{{size.id}}" name="size" id="size-{{forloop.counter}}">
+                      
+                    </label>
+
+                 {% endfor %}
+
+                </div>
+            </form>
+            {% endif %}
+
+
+            <div class="rating">
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+            </div>
+            <h5>${{product.price}}</h5>
+            
+            {% if product.variant == "Color"  or product.variant == "Size-Color" %}
+            <form action="" class="myform" onchange="console.log('Data has changed');">
+                <div class="product__color__select">
+                   
+                    {% for v in product.product_variation.color_list %} 
+                    
+                    <label class="" style="background: {{v.color_code}}" >
+                        <input type="radio" data-varid="{{v.id}}"   name="color" data-color="{{v.id}}" value="{{v.id}}" id="pc-{{forloop.counter}}">
+                    </label>
+                 {% endfor %}
+
+                </div>
+            </form>
+            {% endif %}
+                
+           
+        </div>
+    </div>
+
+</div>
+
+        <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+        <script>
+
+
+            $(document).ready(function () {
+
+                $('#add-to-cart-btn-{{product.id}}').click(function (e) {
+                    e.preventDefault();
+                    // try {
+
+                        console.log('I clicked a buton')
+                        
+                    var variant = e.target.parentElement.children[2].value;
+                    
+                    var prod_name = $('#product_name_{{product.id}}').val();
+                    var prod_id = $('#product_id_{{product.id}}').val() 
+                    
+                    if(variant == 'Size-Color' || variant == 'Color'){
+                       
+                        if(e.target.parentElement.lastElementChild.children[0].children[0].children[0] ){
+
+                        var color = $('input[name="color"]:checked').val();
+                        var varid = e.target.parentElement.lastElementChild.children[0].children[0].children[0].dataset.varid ;
+                        
+                    }
+                    }
+
+
+                     if(variant == 'Size' || variant == 'Size-Color'){
+                         
+                         
+                         if(e.target.parentElement.children[7].children[0].children[0].children[0]){
+                            var size = $('input[name="size"]:checked').val();
+                            var varid = e.target.parentElement.children[7].children[0].children[0].children[0].dataset.vid;
+                            
+                         }
+                        
+                    }
+
+                   
+                   sent_data = {productname: prod_name,
+                                product_id: prod_id,
+                            size: size, 
+                        color: color, varid: varid}
+                    
+                  console.log('SENT DATA: ', sent_data)
+
+                        $.ajax({
+                            type: 'GET',
+                            url: '{% url "ecommerce:add_to_cart" %}',
+                            data: sent_data,
+
+                            success: function (data) {
+
+                                document.getElementById('cart_items_total').innerHTML = data;
+                            },
+                            error: function (data) { $('#product_id_{{product.id}}_error').html('An error has occured.') }
+
+                        })
+
+                });
+
+
+                $('.myform').on('change', '#size-{{forloop.counter}}', function(e) {
+                    sizeid = e.target.value
+                    product_id = e.target.dataset.productid
+                    
+                    console.log('I am tesng')
+                    $.ajax({
+                            type: 'GET',
+                            url: '{% url "ecommerce:load_colors" %}',
+                            data: {sizeid : sizeid, p_id : product_id},
+                            dataType: 'json',
+
+                            success: function (data) {
+                                
+                                e.target.parentElement.parentElement.parentElement.parentElement.lastElementChild.innerHTML = `${data.table_to_render}`
+                   
+                            },
+                            error: function (data) { }
+
+                        })
+
+                })
+
+            });
+        </script>

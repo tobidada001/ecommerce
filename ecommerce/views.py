@@ -84,7 +84,7 @@ def cart(request):
 
 
 def add_to_cart(request):
-   
+
     response = 0
     if request.method == 'GET':
         
@@ -116,7 +116,7 @@ def add_to_cart(request):
                 return redirect(request.GET['path'])
 
             return HttpResponse(response)
-        
+
     return HttpResponse(response)
 
 
