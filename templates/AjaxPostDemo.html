@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<form method="post" id="poform">
+    {% csrf_token %}
+    
+    <input type="text" placeholder="Enter name"  id="myname"> <br>
+    <input type="text" placeholder="Enter email" id="email"> <br>
+    <input type="text" placeholder="Enter address" id="address"> <br>
+    <input type="submit" value="Submit">
+
+</form>
+
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script type="text/javascript">
+
+    
+   $(document).on('submit', '#poform', function(e){
+       e.preventDefault()
+       console.log('Submitted.')
+
+       $.ajax({
+
+           type : 'POST',
+           url: '',
+           data: {
+               name: $('#myname').val(),
+               email: $('#email').val(),
+               address: $('#address').val(),
+               csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+           },   
+           success: () => {
+               console.log('Wow. Data submitted')
+           },
+           error: () =>{
+               console.log('Oh, sorry. Data did not submit.')
+           }
+        })
+   })
+</script>
+
+{% endblock content %}

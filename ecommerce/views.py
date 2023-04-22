@@ -277,3 +277,10 @@ def logoutuser(request):
 
     logout(request)
     return redirect('/')
+
+
+def justtest(request):
+
+    if request.method == 'POST':
+        print('THIS IS THE POST DATA: ', request.POST)
+    return render(request, 'AjaxPostDemo.html')
