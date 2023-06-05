@@ -6,7 +6,6 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 import json
 from django.db.models import Q
 from pprint import pprint
-from django.core import serializers
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 import uuid
@@ -34,6 +33,7 @@ def shop(request):
     brands = Brand.objects.all()
     categories = ProductCategory.objects.all()
     products = Product.objects.all()
+    sizes = None
     
     for product in products:
         sizes = ProductSize.objects.filter(id__in = product.product_variation.all().values_list('size', flat = True).distinct())
@@ -76,14 +76,15 @@ def cart(request):
         if items:
             context = {
                 'items_in_cart': items.cart_items.all(), 'total_amount_to_pay': items.total_amount_to_pay}
-        else:
-            context = {}
            
     return render(request, 'ecommerce/shopping-cart.html', context)
 
 
 
 def add_to_cart(request):
+
+    if not request.user.is_authenticated:
+        return JsonResponse({'not_authenticated': True, 'to': request.META['HTTP_REFERER']})
 
     response = 0
     if request.method == 'GET':
@@ -114,7 +115,6 @@ def add_to_cart(request):
 
             if path:
                 return redirect(request.GET['path'])
-
             return HttpResponse(response)
 
     return HttpResponse(response)
@@ -154,9 +154,7 @@ def remove_from_cart(request):
         item = CartItems.objects.filter(items = cart, id = cartitemid)
         if item.exists():
             item.delete()
-        else:
-            print('Item does not exist')
-
+        
         items = cart.cart_items.select_related('product').all()
 
         item  = items.filter().last()
@@ -218,18 +216,16 @@ def discount(request):
     return HttpResponse('Discount added')
 
 def orders(request):
-
+    orders = []
     if request.user.is_authenticated: 
         orders = request.user.order_set.all()
-    else:
-        orders = ''
     return render(request, 'ecommerce/orders.html', {'orders': orders})
 
 
 def auth_user(request):
     if request.user.is_authenticated:
         return redirect('/')
-    
+
     if request.method == 'POST':
         username = request.POST['uname']
         password = request.POST['password']
@@ -239,9 +235,12 @@ def auth_user(request):
             
             if the_user.is_authenticated:
                 login(request, the_user)
-                return redirect('/')
-            else:
                 
+                if request.GET['to']:
+                    return redirect(request.GET['to'])
+                return redirect('/')
+
+            else:
                 return redirect(request.path)
         else:
             return redirect(request.path)

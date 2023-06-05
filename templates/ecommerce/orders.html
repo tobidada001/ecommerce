@@ -4,7 +4,7 @@
 
 {% block content %}
  
-    {% include "../breadcrumb.html" with current_page='Shopping Cart' %}
+    {% include "../breadcrumb.html" with current_page='My Orders' %}
    
     <section class="shopping-cart spad">
         <div class="container">
@@ -32,11 +32,11 @@
                                     <td>{{order.created_at}}</td>
                                     <td>{{order.status}}</td>
                                     <td>{{order.payment_method}}</td>
-                                    <td> <a href="#">View Details</a> </td>
+                                    <!-- <td> <a href="#">View Details</a> </td> -->
                                     </tr>
                                 {% endfor %}
                                 {% else %}
-                                    <p>You haven't made any orders, yet.</p>
+                                    <tr><td colspan="4" style="text-align: center;">You haven't made any orders, yet.</td></tr>
                                 {% endif %}
                                     
                             </tbody>

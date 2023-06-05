@@ -142,7 +142,7 @@
                             size: size, 
                         color: color, varid: varid}
                     
-                  console.log('SENT DATA: ', sent_data)
+                  
 
                         $.ajax({
                             type: 'GET',
@@ -150,8 +150,13 @@
                             data: sent_data,
 
                             success: function (data) {
+                                if (data.not_authenticated){
+                                    window.location.href = '/auth-user?to='+data.to
+                                }else{
+                                    document.getElementById('cart_items_total').innerHTML = data;
+                                }
 
-                                document.getElementById('cart_items_total').innerHTML = data;
+                                
                             },
                             error: function (data) { $('#product_id_{{product.id}}_error').html('An error has occured.') }
 
@@ -164,7 +169,7 @@
                     sizeid = e.target.value
                     product_id = e.target.dataset.productid
                     
-                    console.log('I am tesng')
+                    
                     $.ajax({
                             type: 'GET',
                             url: '{% url "ecommerce:load_colors" %}',
