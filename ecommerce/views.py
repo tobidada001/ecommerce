@@ -32,6 +32,7 @@ def shop(request):
     
     brands = Brand.objects.all()
     categories = ProductCategory.objects.all()
+    
     products = Product.objects.all()
     sizes = None
     
