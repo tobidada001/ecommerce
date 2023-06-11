@@ -30,12 +30,19 @@ def index(request):
 
 def shop(request):
     
+    search = request.GET.get('search')
     brands = Brand.objects.all()
     categories = ProductCategory.objects.all()
+    colors = Color.objects.all()
     
-    products = Product.objects.all()
+    if search:
+        products = Product.objects.filter(name__icontains = search)
+    else:
+        products = Product.objects.all()
+
     sizes = None
     
+
     for product in products:
         sizes = ProductSize.objects.filter(id__in = product.product_variation.all().values_list('size', flat = True).distinct())
         colors = Color.objects.filter(id__in = product.product_variation.all().values_list('color', flat = True).distinct())
@@ -50,7 +57,8 @@ def shop(request):
     
     page.adjusted_elided_pages = pages.get_elided_page_range(page_number)
     
-    context = {'brands': brands, 'categories': categories, 'sizes': sizes, 'products': products, 'page': page}
+    context = {'brands': brands, 'categories': categories, 'sizes': sizes, 'products': products, 
+    'page': page, 'searched_keyword': search, 'colors': colors}
     return render(request, 'ecommerce/shop.html', context)
 
 def product_details(request, pk):

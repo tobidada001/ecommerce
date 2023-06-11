@@ -27,10 +27,6 @@ class ProductSize(models.Model):
     def __str__(self):
         return self.size
 
-    class Meta:
-        verbose_name = 'ProductSize'
-        verbose_name_plural = 'ProductSizes'
-
 
 class Color(models.Model):
 
@@ -39,10 +35,8 @@ class Color(models.Model):
 
     def color_tag(self):
         if self.color_code is not None:
-            
             return mark_safe('<div style="background-color: {};"> {} </div>'.format(self.color_code, self.name))
         else:
-            
             return ""
 
     def __str__(self):
@@ -69,8 +63,6 @@ class Product(models.Model):
 
     class Meta:
         ordering = ('-date_added',)
-        verbose_name = 'Product'
-        verbose_name_plural = 'Products'
 
 
 

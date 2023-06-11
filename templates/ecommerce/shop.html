@@ -6,16 +6,16 @@
     <!-- Header Section End -->
 
     <!-- Breadcrumb Section Begin -->
-    {% include "../breadcrumb.html" with current_page='Shop'  %}
-   
+    {% include "../breadcrumb.html" with current_page='Shop' keyword=searched_keyword  %}
+
     <section class="shop spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">
                     <div class="shop__sidebar">
                         <div class="shop__sidebar__search">
-                            <form action="#">
-                                <input type="text" placeholder="Search...">
+                            <form action="{% url 'ecommerce:shop' %}">
+                                <input type="text" placeholder="Search..." name="search">
                                 <button type="submit"><span class="icon_search"></span></button>
                             </form>
                         </div>
@@ -70,15 +70,18 @@
                                     </div>
                                     <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
-                                            <div class="shop__sidebar__price">
-                                                <ul>
+                                            <div class="shop__sidebar__price text-center">
+                                                {% comment %} <ul>
                                                     <li><a href="#">$0.00 - $50.00</a></li>
                                                     <li><a href="#">$50.00 - $100.00</a></li>
                                                     <li><a href="#">$100.00 - $150.00</a></li>
                                                     <li><a href="#">$150.00 - $200.00</a></li>
                                                     <li><a href="#">$200.00 - $250.00</a></li>
                                                     <li><a href="#">250.00+</a></li>
-                                                </ul>
+                                                </ul> {% endcomment %}
+                                                
+                                                <input type="range" class="w-100" name="range" />
+                                                <input type="button" class="btn btn-primary w-75" value = "Filter"/>
                                             </div>
                                         </div>
                                     </div>
@@ -111,33 +114,13 @@
                                     <div id="collapseFive" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <div class="shop__sidebar__color">
-                                                <label class="c-1" for="sp-1">
-                                                    <input type="radio" id="sp-1">
+
+                                                {% for color in colors %}
+                                                <label class="c-{{forloop.counter}}" style="background: {{color.name}}" for="sp-{{forloop.counter}}">
+                                                    <input type="radio" id="sp-{{forloop.counter}}">
                                                 </label>
-                                                <label class="c-2" for="sp-2">
-                                                    <input type="radio" id="sp-2">
-                                                </label>
-                                                <label class="c-3" for="sp-3">
-                                                    <input type="radio" id="sp-3">
-                                                </label>
-                                                <label class="c-4" for="sp-4">
-                                                    <input type="radio" id="sp-4">
-                                                </label>
-                                                <label class="c-5" for="sp-5">
-                                                    <input type="radio" id="sp-5">
-                                                </label>
-                                                <label class="c-6" for="sp-6">
-                                                    <input type="radio" id="sp-6">
-                                                </label>
-                                                <label class="c-7" for="sp-7">
-                                                    <input type="radio" id="sp-7">
-                                                </label>
-                                                <label class="c-8" for="sp-8">
-                                                    <input type="radio" id="sp-8">
-                                                </label>
-                                                <label class="c-9" for="sp-9">
-                                                    <input type="radio" id="sp-9">
-                                                </label>
+                                                {% endfor %}
+                                                    
                                             </div>
                                         </div>
                                     </div>
@@ -155,7 +138,7 @@
                                                 <a href="#">Fashio</a>
                                                 <a href="#">Clothing</a>
                                                 <a href="#">Hats</a>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -202,12 +185,11 @@
                                 
                                 {% for pagelink in page.adjusted_elided_pages %}
                                     
-                                    {% if pagelink == page.paginator.ELLIPSIS %}
-                                    {{pagelink}} 
+                                    {% if pagelink == page.paginator.ELLIPSIS %} {{pagelink}} 
 
                                     {% else %}
                                     <a class="{% if page.number == pagelink %} active {% endif %} "
-                            
+                    
                                   href="?page={{pagelink}}">{{pagelink}}</a>   
                                     {% endif %}
                                     
