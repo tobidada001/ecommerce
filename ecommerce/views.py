@@ -245,7 +245,7 @@ def auth_user(request):
             if the_user.is_authenticated:
                 login(request, the_user)
                 
-                if request.GET['to']:
+                if request.GET.get('to'):
                     return redirect(request.GET['to'])
                 return redirect('/')
 
