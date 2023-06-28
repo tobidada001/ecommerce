@@ -1,6 +1,6 @@
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 import datetime
 import uuid
@@ -19,12 +19,12 @@ class Brand(models.Model):
         return self.name
 
 
-class CustomUser(AbstractUser):
-    username = models.CharField(max_length=50)
-    email = models.EmailField(max_length=254)
+# class CustomUser(AbstractUser):
+#     username = models.CharField(max_length=50)
+#     email = models.EmailField(max_length=254)
 
-    def __str__(self):
-        return self.username
+#     def __str__(self):
+#         return self.username
     
 
 

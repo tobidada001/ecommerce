@@ -89,11 +89,11 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ecommercedb_g0zq',
-        'USER': 'tobidada',
-        'PASSWORD': 'IiNZYwjfSaRyqwwSBOrSCgwoRctzYezE',
-        'HOST': '',
-        'PORT' : '5432',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'wn7Fa8OtdfIVBuCPwkYP',
+        'HOST': 'containers-us-west-20.railway.app',
+        'PORT' : '7269',
 
     }
 }
