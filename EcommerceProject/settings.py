@@ -16,7 +16,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '123456890')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', 'https://ecommerce-production-b50e.up.railway.app']
 
 # Application definition
 
