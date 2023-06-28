@@ -1,5 +1,6 @@
 
 from pathlib import Path
+import os
 # from ecommerce.models import CustomUser
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -10,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5q-x*7wwg&ru&ebzw^^72)v3pyf6_o+od=v+)#bxu*ube@bm8j'
+SECRET_KEY = os.environ.get('SECRET_KEY', '123456890')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -91,7 +92,7 @@ DATABASES = {
         'NAME': 'ecommercedb_g0zq',
         'USER': 'tobidada',
         'PASSWORD': 'IiNZYwjfSaRyqwwSBOrSCgwoRctzYezE',
-        'HOST': 'dpg-cidqfq98g3n4p2pc1h60-a',
+        'HOST': '',
         'PORT' : '5432',
 
     }
