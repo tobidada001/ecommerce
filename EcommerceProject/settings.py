@@ -18,6 +18,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*', 'https://ecommerce-production-b50e.up.railway.app']
 
+CSRF_TRUSTED_ORIGINS = ['https://ecommerce-production-b50e.up.railway.app']
 # Application definition
 
 INSTALLED_APPS = [
