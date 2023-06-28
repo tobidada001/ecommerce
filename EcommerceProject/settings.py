@@ -1,5 +1,6 @@
 
 from pathlib import Path
+# from ecommerce.models import CustomUser
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,6 +20,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -66,6 +68,9 @@ WSGI_APPLICATION = 'EcommerceProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+'''
+## Development database setting
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -77,7 +82,24 @@ DATABASES = {
 
     }
 }
+'''
 
+# Production Database setting.
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ecommercedb_g0zq',
+        'USER': 'tobidada',
+        'PASSWORD': 'IiNZYwjfSaRyqwwSBOrSCgwoRctzYezE',
+        'HOST': 'dpg-cidqfq98g3n4p2pc1h60-a',
+        'PORT' : '5432',
+
+    }
+}
+
+
+
+# USER_AUTH_MODEL = CustomUser
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

@@ -1,25 +1,32 @@
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 import datetime
 import uuid
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
 class ProductCategory(models.Model):
     
     category_name = models.CharField( max_length=50)
     def __str__(self):
         return self.category_name
-    
-    class Meta:
-        verbose_name =  'Category'
-        verbose_name_plural = 'Categories'
 
 class Brand(models.Model):
     name = models.CharField(verbose_name = "Brand", max_length=50)
 
     def __str__(self):
         return self.name
+
+
+class CustomUser(AbstractUser):
+    username = models.CharField(max_length=50)
+    email = models.EmailField(max_length=254)
+
+    def __str__(self):
+        return self.username
+    
+
 
 class ProductSize(models.Model):
     size = models.CharField(max_length=70, blank=True, null=True)
@@ -65,6 +72,12 @@ class Product(models.Model):
         ordering = ('-date_added',)
 
 
+class ProductImage(models.Model):
+    product= models.ForeignKey(Product, on_delete=models.SET_NULL, null = True)
+    image = models.ImageField(upload_to='product_image/')
+    def __str__(self):
+        return 'Image: ' +self.product.name
+
 
 class ProductVariation(models.Model):
 
@@ -95,7 +108,7 @@ class ProductVariation(models.Model):
 
 class Cart(models.Model):
     
-    owner = models.ForeignKey(User, verbose_name=("Owner"), on_delete=models.CASCADE)
+    # owner = models.ForeignKey(User, verbose_name=("Owner"), on_delete=models.CASCADE)
 
     @property
     def total_in_cart(self):
@@ -141,10 +154,6 @@ class CustomerReview(models.Model):
     def __str__(self):
         return self.customer_review
 
-    class Meta:
-        verbose_name = 'CustomerReview'
-        verbose_name_plural = 'CustomerReviews'
-
 
 class Order(models.Model):
 
@@ -154,7 +163,7 @@ class Order(models.Model):
     ('Canceled', 'Canceled'))
     uid = str(uuid.uuid4())[:8]
 
-    user = models.ForeignKey(User,null=True, on_delete=models.SET_NULL)
+    # user = models.ForeignKey(User,null=True, on_delete=models.SET_NULL)
     order_id = models.CharField(max_length = 10, unique = True, default = uid)
     # cart = models.ForeignKey("Cart", on_delete=models.CASCADE, blank=True, null=True)
     first_name = models.CharField(max_length=50, blank=True, null=True)
@@ -173,7 +182,3 @@ class Order(models.Model):
 
     def __str__(self):
         return self.first_name + ' '+ self.last_name
-
-    class Meta:
-        verbose_name = 'Order'
-        verbose_name_plural = 'Orders'

@@ -1,14 +1,19 @@
 from django.contrib import admin
 from ecommerce.models import Product, ProductCategory, Brand, ProductSize, CustomerReview, Cart
-from ecommerce.models import CartItems, Color, ProductVariation, Order
+from ecommerce.models import CartItems, Color, ProductVariation, Order, ProductImage
 from django.contrib.auth.admin import UserAdmin
 
 # Register your models here.
+
 
 class ProductVariationInline(admin.TabularInline):
     model = ProductVariation
     extra = 1
 
+
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 2
 
 
 
@@ -23,12 +28,12 @@ class ProductVariationAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('user', 'order_id', 'first_name', 'last_name', 'email')
+    list_display = ( 'order_id', 'first_name', 'last_name', 'email')
     
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    inlines = (ProductVariationInline,)
+    inlines = (ProductImageInline, ProductVariationInline, )
     list_display = ['id', 'name']
 
 admin.site.register(ProductCategory)

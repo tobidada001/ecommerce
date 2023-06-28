@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from ecommerce.models import Product, Brand, ProductCategory, ProductSize, CustomerReview
-from ecommerce.models import Cart, CartItems, ProductVariation, Color, Order
+from ecommerce.models import Cart, CartItems, ProductVariation, Color, Order, ProductImage
 from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 import json
@@ -65,7 +65,8 @@ def product_details(request, pk):
     product = get_object_or_404(Product, id = pk)
     category = get_object_or_404(ProductCategory, category_name = product.category)
     brand = get_object_or_404(Brand, name = product.brand)
-    
+    product_images = product.productimage_set.all()
+
     related_products = category.products.all()
     related_brands = brand.brand_products.all()
 
@@ -74,7 +75,7 @@ def product_details(request, pk):
     product.product_variation.size_list = sizes
     product.product_variation.color_list = colors
 
-    return render(request, 'ecommerce/shop-details.html', {'product': product, 'related_brands': related_brands, 'related_products': related_products})
+    return render(request, 'ecommerce/shop-details.html', {'product': product, 'related_brands': related_brands, 'related_products': related_products, 'prod_images': product_images})
 
 
 def cart(request):
@@ -192,7 +193,7 @@ def load_colors(request):
     return JsonResponse(rendered, safe= False)
 
 
-@login_required(login_url = '/shop/')
+@login_required(login_url = '/auth-user/')
 def checkout(request):
     cart = Cart.objects.filter(owner = request.user).last()
     
@@ -224,6 +225,7 @@ def checkout(request):
 def discount(request):
     return HttpResponse('Discount added')
 
+@login_required(login_url = '/auth-user/')
 def orders(request):
     orders = []
     if request.user.is_authenticated: 
@@ -247,6 +249,8 @@ def auth_user(request):
                 
                 if request.GET.get('to'):
                     return redirect(request.GET['to'])
+                elif request.GET.get('next'):
+                    return redirect(request.GET['next'])
                 return redirect('/')
 
             else:
