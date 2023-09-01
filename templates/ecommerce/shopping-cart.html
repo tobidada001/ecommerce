@@ -76,9 +76,9 @@
                                                 <div class="pro-qty-2">
                                                            
                                                             {% if item.variation %}
-                                                            <input type="number" data-productid="{{item.id}}" class="quantity_changed" value="{{item.quantity}}">
+                                                            <input type="number" data-productid="{{item.id}}" data-itemid="{{item.id}}" class="quantity_changed" value="{{item.quantity}}">
                                                             {% else %}
-                                                            <input type="number" data-productid="{{item.product.id}}" class="quantity_changed" value="{{item.quantity}}">
+                                                            <input type="number" data-itemid="{{item.id}}" data-productid="{{item.product.id}}" class="quantity_changed" value="{{item.quantity}}">
                                                             {% endif %}
                                                                      
                                                 </div>

@@ -71,34 +71,33 @@ WSGI_APPLICATION = 'EcommerceProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-'''
-## Development database setting
+if DEBUG:
+    ## Development database setting
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'ecommercedb',
+            'USER': 'root',
+            'PASSWORD': '',
+            'HOST': 'localhost',
+            'PORT' : '3306',
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ecommercedb',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT' : '3306',
-
+        }
     }
-}
-'''
+    
+else:
+    # Production Database setting.
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'railway',
+            'USER': 'postgres',
+            'PASSWORD': 'wn7Fa8OtdfIVBuCPwkYP',
+            'HOST': 'containers-us-west-20.railway.app',
+            'PORT' : '7269',
 
-# Production Database setting.
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'wn7Fa8OtdfIVBuCPwkYP',
-        'HOST': 'containers-us-west-20.railway.app',
-        'PORT' : '7269',
-
+        }
     }
-}
 
 
 

@@ -108,7 +108,8 @@ class ProductVariation(models.Model):
 
 class Cart(models.Model):
     
-    # owner = models.ForeignKey(User, verbose_name=("Owner"), on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, verbose_name=("Owner"), on_delete=models.CASCADE, blank=True, null=True)
+    session_id = models.CharField( max_length=100, blank=True, null=True)
 
     @property
     def total_in_cart(self):
@@ -125,7 +126,7 @@ class Cart(models.Model):
 
         
     def __str__(self):
-        return self.owner.username
+        return str(self.owner.username) if self.owner else f'>>> SessionID: {self.session_id}'
     
 
 
@@ -163,7 +164,7 @@ class Order(models.Model):
     ('Canceled', 'Canceled'))
     uid = str(uuid.uuid4())[:8]
 
-    # user = models.ForeignKey(User,null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User,null=True, on_delete=models.SET_NULL)
     order_id = models.CharField(max_length = 10, unique = True, default = uid)
     # cart = models.ForeignKey("Cart", on_delete=models.CASCADE, blank=True, null=True)
     first_name = models.CharField(max_length=50, blank=True, null=True)

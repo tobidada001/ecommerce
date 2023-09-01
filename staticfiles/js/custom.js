@@ -41,11 +41,10 @@ $(document).ready(function () {
 
 $('#cartitems_table').on('change', '.quantity_changed', function (e) {
 
-        console.log('value changed')
-
         var newvalue = e.target.value
         var product_id = e.target.dataset.productid
-        
+        var itemid = e.target.dataset.itemid
+       
         $.ajax({
             type: 'GET',
             url: '/update-cart',
@@ -53,6 +52,7 @@ $('#cartitems_table').on('change', '.quantity_changed', function (e) {
             data: {
                 new_quantity: newvalue,
                 product_id: product_id,
+                itemid : itemid,
             },
             success: function (data) {
                 document.getElementById('cart_items_total').innerHTML = data.cart_items_total;
