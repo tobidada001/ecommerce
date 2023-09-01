@@ -132,12 +132,6 @@
             <div class="canvas__open"><i class="fa fa-bars"></i></div>
         </div>
     </header>
-
-    
-    {% if not request.user.is_authenticated %}
-    
-    <center> <marquee > <p><b> Please, login before making any order. </b></p> </marquee> </center>
-    {% endif %}
         
 
     {% block content %}

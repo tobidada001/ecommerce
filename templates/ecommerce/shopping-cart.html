@@ -86,7 +86,7 @@
                                         </td>
                                         <td data-total_amount="{{item.total_amount}}" class="cart__price">${{item.total_amount}}</td>
                                        
-                                        <td class="cart__close"><i class="fa fa-close removeitem"  data-remove_id="{{item.id}}"></i></td>
+                                        <td class="cart__close"><i class="fa fa-close removeitem" data-itemid = "{{item.id}}" data-remove_id="{{item.id}}"></i></td>
                                         
                                     </tr>
                                 {% endfor %}

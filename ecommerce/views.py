@@ -21,7 +21,6 @@ def index(request):
         product.product_variation.size_list = sizes
         product.product_variation.color_list = colors
         
-
     context = { 'products': products }
     return render(request, 'ecommerce/index.html', context)
 
@@ -32,12 +31,8 @@ def shop(request):
     brands = Brand.objects.all()
     categories = ProductCategory.objects.all()
     colors = Color.objects.all()
-    
-    if search:
-        products = Product.objects.filter(name__icontains = search)
-    else:
-        products = Product.objects.all()
-
+   
+    products = Product.objects.filter(name__icontains = search) if search else Product.objects.all()
     sizes = None
     
 
@@ -59,6 +54,7 @@ def shop(request):
     'page': page, 'searched_keyword': search, 'colors': colors}
     return render(request, 'ecommerce/shop.html', context)
 
+
 def product_details(request, pk):
     product = get_object_or_404(Product, id = pk)
     category = get_object_or_404(ProductCategory, category_name = product.category)
@@ -78,7 +74,6 @@ def product_details(request, pk):
 
 def cart(request):
     context = {}
-    # if request.user.is_authenticated:
     items = Cart.objects.filter(session_id = request.session['anonymoususer']).last()
     
     if items:
@@ -138,7 +133,8 @@ def update_cart(request):
         response = {
             'cart_items_total': cart.total_in_cart,
             'item_subtotal': float(item.total_amount),
-            'total_payment': float(cart.total_amount_to_pay)
+            'total_payment': float(cart.total_amount_to_pay),
+            'itemid' : int(item.id)
         }
 
     return JsonResponse(response)
@@ -159,10 +155,10 @@ def remove_from_cart(request):
         item  = items.filter().last()
         if item:
             context = { 'subtotal': item.total_amount,
-            'total_product_quantity': cart.total_in_cart, 'total_payment': cart.total_amount_to_pay }
+            'total_product_quantity': cart.total_in_cart, 'total_payment': cart.total_amount_to_pay, 'itemid': item.id }
         else:
             context = { 'subtotal': 0,
-            'total_product_quantity': 0, 'total_payment': 0 }
+            'total_product_quantity': 0, 'total_payment': 0, 'itemid': 0 }
 
         rendered = {'table_to_render': render_to_string('ecommerce/returned_row.html', context = {'data': items})}
 
@@ -206,7 +202,11 @@ def checkout(request):
             my_order.order_id = str(uuid.uuid4())[:8]
         my_order.save()
 
+        if request.session.get('anonymoususer'):
+            del request.session['anonymoususer']
+
         Cart.objects.filter(owner = request.user).delete()
+        return redirect('ecommerce:shop')
 
     return render(request, 'ecommerce/checkout.html', {'cart': cart})
 
@@ -216,13 +216,7 @@ def discount(request):
 
 @login_required(login_url = '/auth-user/')
 def orders(request):
-    orders = []
-    if request.user.is_authenticated: 
-        try:
-            orders = request.user.order_set.all()
-        except:
-            orders = []
-
+    orders = request.user.order_set.all()
     return render(request, 'ecommerce/orders.html', {'orders': orders})
 
 
@@ -278,7 +272,7 @@ def register_user(request):
                 if the_user.is_authenticated:
                     login(request, the_user)
                     
-                    cart = Cart.objects.get(session_id = request.session['anonymoususer'])
+                    cart = Cart.objects.get(session_id = request.session['anonymoususer'], completed = False)
                     cart.owner = request.user
                     cart.save()
 

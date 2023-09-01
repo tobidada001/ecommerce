@@ -97,7 +97,6 @@ class ProductVariation(models.Model):
     @property
     def return_my_sizes(self):
         sizes = self.objects.all().values_list('size', flat = True).distinct()
-        print(sizes)
         return sizes
 
     class Meta:
@@ -110,7 +109,7 @@ class Cart(models.Model):
     
     owner = models.ForeignKey(User, verbose_name=("Owner"), on_delete=models.CASCADE, blank=True, null=True)
     session_id = models.CharField( max_length=100, blank=True, null=True)
-
+    completed = models.BooleanField(default= False)
     @property
     def total_in_cart(self):
         items = self.cart_items.all()

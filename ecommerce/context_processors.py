@@ -2,9 +2,7 @@ from ecommerce.models import Cart
 import uuid
 
 
-
 def processor(request):
-    print(request.session.keys())
     sid = str(uuid.uuid4())
     
     try:

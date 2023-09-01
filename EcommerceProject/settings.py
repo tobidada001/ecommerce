@@ -16,9 +16,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '123456890')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', 'https://ecommerce-production-b50e.up.railway.app']
+ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['https://ecommerce-production-b50e.up.railway.app']
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -89,7 +89,7 @@ else:
     # Production Database setting.
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
+            'ENGINE': 'django.db.backends.mysql',
             'NAME': 'railway',
             'USER': 'postgres',
             'PASSWORD': 'wn7Fa8OtdfIVBuCPwkYP',
@@ -144,7 +144,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media'
 STATIC_ROOT = BASE_DIR/'static'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 

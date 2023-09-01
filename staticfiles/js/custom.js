@@ -61,6 +61,8 @@ $('#cartitems_table').on('change', '.quantity_changed', function (e) {
 
                 document.getElementById('total_payment_subtotal').innerHTML = `$${data.total_payment.toFixed(2)}`
                 document.getElementById('total_payment').innerHTML = `$${data.total_payment.toFixed(2)}`
+
+                console.log('New Item ID: ', data.itemid)
                 
             },
             error: function (data) { console.error(data.errors) }
@@ -71,8 +73,7 @@ $('#cartitems_table').on('change', '.quantity_changed', function (e) {
 
 
 let shop_detail_add_to_cart_btn = $('#shop_detail_add_to_cart');
-console.log('aM SOMEWERE HERE.')
-console.log(shop_detail_add_to_cart_btn)
+
 shop_detail_add_to_cart_btn.on('click', function(e){
     console.log('I clicked this')
 })

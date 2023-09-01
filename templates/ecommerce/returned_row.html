@@ -3,7 +3,6 @@
     
 
 {% for item in data %}
-An item.
      
 <tr>
     <td class="product__cart__item">
@@ -40,9 +39,8 @@ An item.
             <div class="pro-qty-2">
 
                 {% if item.variation %} 
-                <input type="number" data-productid="{{item.id}}" class="quantity_changed" value="{{item.quantity}}"> {% else %}
-                <input type="number" data-productid="{{item.product.id}}" class="quantity_changed" value="{{item.quantity}}"> {% endif %}
-
+                <input type="number" data-productid="{{item.id}}" data-itemid ="{{item.id}}" class="quantity_changed" value="{{item.quantity}}"> {% else %}
+                <input type="number" data-productid="{{item.product.id}}" data-itemid ="{{item.id}}" class="quantity_changed" value="{{item.quantity}}"> {% endif %}
 
             </div>
         </div>
@@ -50,10 +48,8 @@ An item.
     <td data-total_amount="{{item.total_amount}}" class="cart__price">${{item.total_amount}}</td>
 
     <td class="cart__close">
-        <i class="fa fa-close removeitem" data-remove_id="{{item.id}}"></i>
+        <i class="fa fa-close removeitem"  data-remove_id="{{item.id}}"></i>
     </td>
-
-
 
 </tr>
 
