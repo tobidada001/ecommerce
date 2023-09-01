@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', '123456890')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -90,11 +90,10 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'railway',
-            'USER': 'postgres',
-            'PASSWORD': 'wn7Fa8OtdfIVBuCPwkYP',
-            'HOST': 'containers-us-west-20.railway.app',
-            'PORT' : '7269',
+            'NAME': 'ecomapp899$default',
+            'USER': 'ecomapp899',
+            'PASSWORD': 'ecom@001',
+            'HOST': 'ecomapp899.mysql.pythonanywhere-services.com'
 
         }
     }
